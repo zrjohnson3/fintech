@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     buttons: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        // padding: 20,
+        padding: 10,
         marginBottom: 60,
         gap: 20,
     }

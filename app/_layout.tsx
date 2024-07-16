@@ -79,6 +79,30 @@ const InitialLayout = () => {
         // </TouchableOpacity>
       }}
       />
+      <Stack.Screen name='login' options={{
+        title: '',
+        headerBackTitle: '',
+        headerShadowVisible: false,
+        // headerStyle: {
+        //   backgroundColor: colorScheme === 'dark' ? DarkTheme.colors.background : DefaultTheme.colors.background,
+        // },
+        headerStyle: { backgroundColor: Colors.background },
+        headerLeft: () => (
+          <TouchableOpacity onPress={router.back}>
+            <Ionicons name='arrow-back' size={34} color='black' />
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <TouchableOpacity onPress={() => router.navigate('help')}>
+            <FontAwesome name='user' size={34} color='black' />
+          </TouchableOpacity>
+        )
+
+        // < TouchableOpacity onPress={() => router.navigate('help')}>
+        // <FontAwesome name='user' size={34} color='black' />
+        // </TouchableOpacity>
+      }}
+      />
       <Stack.Screen name='help' options={{ title: 'Help', presentation: 'modal' }} />
     </Stack>
 
