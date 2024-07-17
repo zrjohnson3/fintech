@@ -2,16 +2,30 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingVi
 import { defaultStyles } from '@/constants/Styles';
 import React from 'react';
 import Colors from '@/constants/Colors';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useSignUp } from '@clerk/clerk-expo';
 
 const SignupPage = () => {
     const [countryCode, setCountryCode] = React.useState('+1');
     const [phoneNumber, setPhoneNumber] = React.useState('');
     const keybordVerticalOffset = Platform.OS === 'ios' ? 80 : 0;
+    const router = useRouter();
+    const { signUp } = useSignUp();
 
     const onSignup = async () => {
         console.log('Signup', countryCode, phoneNumber);
+
+        try {
+            await signUp!.create({
+                phoneNumber: `${countryCode}${phoneNumber}`
+            });
+            router.push({ pathname: '/verify/[phone]', params: { phone: `${countryCode}${phoneNumber}` } });
+        }
+        catch (err: any) {
+            console.error('Failed to sign up', err);
+            return;
+        }
     };
 
     return (
