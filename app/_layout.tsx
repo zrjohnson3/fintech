@@ -1,11 +1,11 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider, } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack, useRouter } from 'expo-router';
+import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 
 import { useColorScheme } from '@/components/useColorScheme';
 import Colors from '@/constants/Colors';
@@ -69,6 +69,9 @@ const InitialLayout = () => {
   const router = useRouter();
   // Use the 'useAuth' hook to access the isLoaded and isSignedIn object.
   const { isLoaded, isSignedIn } = useAuth();
+  // Use 'segments' to access the segments object.
+  // Helps you manage the segments of the user and understand the user's journey.
+  const segments = useSegments();
 
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -84,10 +87,22 @@ const InitialLayout = () => {
 
   useEffect(() => {
     console.log('isSignedIn:', isSignedIn);
+    if (!isLoaded) return;
+
+    const isAuthGroup = segments[0] === '(authenticated)'
+
+    if (isSignedIn && !isAuthGroup) {
+      router.replace('/(authenticated)/(tabs)/home');
+    }
+    else if (!isSignedIn) {
+      router.replace('/');
+    }
   }, [isSignedIn]);
 
-  if (!loaded) {
-    return null;
+  if (!loaded || !isLoaded) {
+    return (
+      <Text>Loading...</Text>
+    )
   }
 
   return (
@@ -172,6 +187,7 @@ const InitialLayout = () => {
       }}
       />
       <Stack.Screen name='help' options={{ title: 'Help', presentation: 'modal' }} />
+      <Stack.Screen name='(authenticated)/(tabs)' options={{ headerShown: false }} />
     </Stack>
 
   );
