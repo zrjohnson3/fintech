@@ -12,7 +12,7 @@ import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { ClerkProvider } from '@clerk/clerk-expo';
+import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 import * as SecureStore from 'expo-secure-store';
 
@@ -65,7 +65,10 @@ const InitialLayout = () => {
     ...FontAwesome.font,
   });
 
+  // Use the `useRouter` hook to access the router object.
   const router = useRouter();
+  // Use the 'useAuth' hook to access the isLoaded and isSignedIn object.
+  const { isLoaded, isSignedIn } = useAuth();
 
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -79,6 +82,10 @@ const InitialLayout = () => {
     }
   }, [loaded]);
 
+  useEffect(() => {
+    console.log('isSignedIn:', isSignedIn);
+  }, [isSignedIn]);
+
   if (!loaded) {
     return null;
   }
@@ -86,7 +93,9 @@ const InitialLayout = () => {
   return (
 
     <Stack>
+      {/* Index Screen */}
       <Stack.Screen name='index' options={{ headerShown: false }} />
+      {/* SignUp Screen */}
       <Stack.Screen name='signup' options={{
         title: '',
         headerBackTitle: '',
@@ -105,13 +114,40 @@ const InitialLayout = () => {
             <FontAwesome name='user' size={34} color='black' />
           </TouchableOpacity>
         )
-
         // < TouchableOpacity onPress={() => router.navigate('help')}>
         // <FontAwesome name='user' size={34} color='black' />
         // </TouchableOpacity>
       }}
       />
+
+      {/* Login Screen */}
       <Stack.Screen name='login' options={{
+        title: '',
+        headerBackTitle: '',
+        headerShadowVisible: false,
+        // headerStyle: {
+        //   backgroundColor: colorScheme === 'dark' ? DarkTheme.colors.background : DefaultTheme.colors.background,
+        // },
+        headerStyle: { backgroundColor: Colors.background },
+        headerLeft: () => (
+          <TouchableOpacity onPress={router.back}>
+            <Ionicons name='arrow-back' size={34} color='black' />
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <TouchableOpacity onPress={() => router.navigate('help')}>
+            <FontAwesome name='user' size={34} color='black' />
+          </TouchableOpacity>
+        )
+        // < TouchableOpacity onPress={() => router.navigate('help')}>
+        // <FontAwesome name='user' size={34} color='black' />
+        // </TouchableOpacity>
+      }}
+      />
+
+
+      {/* Verify Screen */}
+      <Stack.Screen name='verify/[phone]' options={{
         title: '',
         headerBackTitle: '',
         headerShadowVisible: false,

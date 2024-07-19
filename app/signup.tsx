@@ -15,12 +15,20 @@ const SignupPage = () => {
 
     const onSignup = async () => {
         console.log('Signup', countryCode, phoneNumber);
+        const fullPhoneNumber = `${countryCode}${phoneNumber}`;
+
+        // For testing purposes, we will skip the phone verification
+        // router.push({ pathname: '/verify/[phone]', params: { phone: `${countryCode}${phoneNumber}` } });
 
         try {
+            // Create a new user using the phone number
             await signUp!.create({
                 phoneNumber: `${countryCode}${phoneNumber}`
             });
-            router.push({ pathname: '/verify/[phone]', params: { phone: `${countryCode}${phoneNumber}` } });
+            // This is needed to prepare the phone number verification
+            signUp!.preparePhoneNumberVerification();
+            // Redirect to the verification page
+            router.push({ pathname: '/verify/[phone]', params: { phone: fullPhoneNumber } });
         }
         catch (err: any) {
             console.error('Failed to sign up', err);

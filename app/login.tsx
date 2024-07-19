@@ -103,7 +103,7 @@ const Page = () => {
                         onPress={() => onSignIn(SignInType.Phone)}
                         disabled={phoneNumber === ''}
                     >
-                        <Text style={defaultStyles.buttonText}>Signup</Text>
+                        <Text style={defaultStyles.buttonText}>Login</Text>
                     </TouchableOpacity>
 
                     <View style={{ flexDirection: "row", alignItems: 'center', gap: 16, paddingTop: 20 }}>
@@ -117,17 +117,17 @@ const Page = () => {
                         onPress={() => onSignIn(SignInType.Email)}
                     >
                         <Ionicons name='mail' size={24} color='black' />
-                        <Text style={[defaultStyles.buttonText, { color: 'black' }]}>Sign up with Email</Text>
+                        <Text style={[defaultStyles.buttonText, { color: 'black' }]}>Login with Email</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={[defaultStyles.pillButton, { backgroundColor: 'white', flexDirection: 'row', gap: 16, marginTop: 20 }]} onPress={() => onSignIn(SignInType.Google)}>
                         <Ionicons name='logo-google' size={24} color='black' />
-                        <Text style={[defaultStyles.buttonText, { color: 'black' }]}>Sign up with Google</Text>
+                        <Text style={[defaultStyles.buttonText, { color: 'black' }]}>Login with Google</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={[defaultStyles.pillButton, { backgroundColor: 'white', flexDirection: 'row', gap: 16, marginTop: 20 }]} onPress={() => onSignIn(SignInType.Apple)}>
                         <Ionicons name='logo-apple' size={24} color='black' />
-                        <Text style={[defaultStyles.buttonText, { color: 'black' }]}>Sign up with Apple</Text>
+                        <Text style={[defaultStyles.buttonText, { color: 'black' }]}>Login with Apple</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
