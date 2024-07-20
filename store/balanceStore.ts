@@ -5,7 +5,7 @@ import { zustandStorage } from './mmkv-storage';
 export interface Transaction {
     id: number
     amount: number
-    date: Date;
+    date: string;
     title: string
     description?: string
     type?: 'credit' | 'debit' | 'transfer' | 'payment' | 'withdrawal' | 'deposit' | 'crypto'
