@@ -19,7 +19,12 @@ const Page = () => {
 
         runTransaction({
             id: Math.random(),
-            date: new Date().toDateString(),
+            // date: new Date().toDateString(),
+            date: new Date().toLocaleDateString('en-US', {
+                weekday: 'long', // "Monday"
+                month: 'long',   // "July"
+                day: 'numeric'   // "22"
+            }),
             title: 'Deposit',
             type: 'deposit',
             amount: 100,
