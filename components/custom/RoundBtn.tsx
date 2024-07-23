@@ -14,7 +14,7 @@ const RoundBtn = ({ icon, text, onPress }: RoundBtnProps) => {
     return (
         <View>
             <TouchableOpacity style={[styles.container]} onPress={onPress}>
-                <View style={styles.circle}>
+                <View style={styles.avatar}>
                     <Ionicons name={icon} size={24} color={Colors.dark.background} />
                 </View>
                 <Text style={styles.label}>{text}</Text>
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         // margin: 5,
     },
-    circle: {
+    avatar: {
         width: 50,
         height: 50,
         borderRadius: 50,
@@ -46,6 +46,6 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 14,
         fontWeight: '400',
-    }
+    },
 
 })

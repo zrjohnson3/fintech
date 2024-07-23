@@ -7,6 +7,7 @@ import Dropdown from '@/components/custom/Dropdown';
 import { useBalanceStore } from '@/store/balanceStore';
 import { Ionicons } from '@expo/vector-icons';
 import WidgetList from '@/components/custom/SortableList/WidgetList';
+import { useHeaderHeight } from '@react-navigation/elements';
 
 const Page = () => {
 
@@ -15,6 +16,8 @@ const Page = () => {
     // Get the balance, runTransaction, transactions, clearTransactions from the balanceStore to use in this component
     // This allows us to persiste the balance and transactions across the app
     const { balance, runTransaction, transactions, clearTransactions } = useBalanceStore();
+
+    const headerHeight = useHeaderHeight();
 
     const onAddMoney = () => {
         console.log('Add Money');
@@ -54,7 +57,10 @@ const Page = () => {
     return (
 
         // home screen with buttons to add money, exchange, and view transactions
-        <ScrollView style={{ backgroundColor: Colors.background }}>
+        <ScrollView
+            style={{ backgroundColor: Colors.background }}
+            contentContainerStyle={{ paddingTop: headerHeight }}
+        >
             <View style={styles.account}>
                 <View style={styles.row}>
                     <Text style={styles.balance}>Account Balance: </Text>
