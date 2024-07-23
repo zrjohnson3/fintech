@@ -5,6 +5,8 @@ import { defaultStyles } from '@/constants/Styles';
 import RoundBtn from '@/components/custom/RoundBtn';
 import Dropdown from '@/components/custom/Dropdown';
 import { useBalanceStore } from '@/store/balanceStore';
+import { Ionicons } from '@expo/vector-icons';
+import WidgetList from '@/components/custom/SortableList/WidgetList';
 
 const Page = () => {
 
@@ -17,14 +19,22 @@ const Page = () => {
     const onAddMoney = () => {
         console.log('Add Money');
 
+        const currentDate = new Date();
+        const date = currentDate.toLocaleDateString('en-US', {
+            weekday: 'long', // "Monday"
+            month: 'long',   // "July"
+            day: 'numeric',   // "22"
+        });
+        const time = currentDate.toLocaleTimeString('en-US', {
+            hour: 'numeric',   // "12"
+            minute: 'numeric', // "30"
+            hour12: true      // "AM"
+        });
+
         runTransaction({
             id: Math.random(),
-            // date: new Date().toDateString(),
-            date: new Date().toLocaleDateString('en-US', {
-                weekday: 'long', // "Monday"
-                month: 'long',   // "July"
-                day: 'numeric'   // "22"
-            }),
+            date: `${date}`,
+            time: time,
             title: 'Deposit',
             type: 'deposit',
             amount: 100,
@@ -42,6 +52,8 @@ const Page = () => {
     }
 
     return (
+
+        // home screen with buttons to add money, exchange, and view transactions
         <ScrollView style={{ backgroundColor: Colors.background }}>
             <View style={styles.account}>
                 <View style={styles.row}>
@@ -60,13 +72,14 @@ const Page = () => {
                 <Dropdown />
             </View>
 
+            {/* Transactions */}
             <View style={styles.transactions}>
                 <Text style={styles.transactionHeader}>Transactions</Text>
                 {transactions.length === 0 ? (
                     <Text style={{ padding: 10 }}>No transactions</Text>
                 ) : (
                     <>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 10 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 10 }}>
                             <View style={styles.transactionSubheaderView}>
                                 <Text style={styles.transactionSubheaderText}>Type</Text>
                             </View>
@@ -78,19 +91,26 @@ const Page = () => {
                             </View>
                         </View>
                         {transactions.map((transaction) => (
-                            <View key={transaction.id} style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10 }}>
-                                <Text style={styles.transactionText}>{transaction.title}</Text>
-                                <Text style={styles.transactionText}>{transaction.date}</Text>
-                                <Text style={styles.transactionText}>{transaction.type === 'deposit' ? '+ ' : '- '}${transaction.amount}</Text>
-                                {/* <Text style={styles.transactionText}>{transaction.amount}</Text> */}
+                            <View key={transaction.id} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <View style={[styles.circle, { flexDirection: 'row' }]}>
+                                    <Ionicons name={transaction.type === 'deposit' ? 'add-circle' : 'remove-circle'} size={24} color={transaction.type === 'deposit' ? 'green' : 'red'} />
+                                    <Text style={styles.transactionText}>{transaction.title}</Text>
+                                </View>
+                                <View style={{ flexDirection: 'column' }}>
+                                    <Text style={styles.transactionText}>{transaction.date}</Text>
+                                    <Text style={styles.transactionText}>{transaction.time}</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <Text style={styles.transactionText}>{transaction.type === 'deposit' ? '+' : '-'}${transaction.amount}</Text>
+                                </View>
                             </View>
                         ))}
                         <Button title='Clear Transactions' onPress={clearTransactions} />
                     </>
-
                 )}
-
             </View>
+            <Text style={defaultStyles.sectionHeader}>Widgets</Text>
+            <WidgetList />
         </ScrollView>
     )
 }
@@ -99,7 +119,7 @@ export default Page
 
 const styles = StyleSheet.create({
     account: {
-        margin: 80,
+        margin: 60,
         alignItems: 'center',
     },
     row: {
@@ -121,6 +141,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         margin: 10,
+        paddingBottom: 20,
+
 
     },
     transactions: {
@@ -153,5 +175,13 @@ const styles = StyleSheet.create({
     transactionSubheaderText: {
         fontWeight: 'bold',
         fontSize: 14,
+    },
+    circle: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 5,
+        backgroundColor: Colors.lightGray,
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 2 },
     }
 })

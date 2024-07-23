@@ -6,6 +6,7 @@ export interface Transaction {
     id: number
     amount: number
     date: string;
+    time?: string;
     title: string
     description?: string
     type?: 'credit' | 'debit' | 'transfer' | 'payment' | 'withdrawal' | 'deposit' | 'crypto'
