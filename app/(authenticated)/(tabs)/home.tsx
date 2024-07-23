@@ -73,8 +73,9 @@ const Page = () => {
             </View>
 
             {/* Transactions */}
+            <Text style={styles.transactionHeader}>Transactions</Text>
             <View style={styles.transactions}>
-                <Text style={styles.transactionHeader}>Transactions</Text>
+
                 {transactions.length === 0 ? (
                     <Text style={{ padding: 10 }}>No transactions</Text>
                 ) : (
