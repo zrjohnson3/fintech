@@ -2,39 +2,30 @@ import axios from "axios";
 
 const API_KEY = process.env.CRYPTO_API_KEY;
 
-// // Description: Get the current exchange rates for BTC.
-export async function GET(request: Request): Promise<Response> {
-    console.log('GET /info+api.ts');
+// // // Description: Get the current exchange rates for BTC.
+// export async function GET(request: Request): Promise<Response> {
+//     console.log('GET /info+api.ts');
 
-    // const options = {
-    //     method: 'GET',
-    //     url: 'https://api.coinbase.com/v2/prices/BTC-USD/spot',
-    //     headers: {
-    //         'Authorization': `Bearer ${API_KEY}`,
-    //         'Content-Type': 'application/json'
-    //     }
-    // };
+//     const options = {
+//         method: 'GET',
+//         url: 'https://api.coinbase.com/v2/prices/BTC-USD/spot',
+//         headers: {
+//             'Authorization': `Bearer ${API_KEY}`,
+//             'Content-Type': 'application/json'
+//         }
+//     };
 
-    // return axios(options)
-    //     .then(response => {
-    //         console.log('Current BTC-USD Price:', response.data);
-    //         return new Response(JSON.stringify(response.data));
-    //     })
-    //     .catch(error => {
-    //         console.error('Error:', error);
-    //         return new Response('Error:', { status: 500 });
-    //     });
+//     return axios(options)
+//         .then(response => {
+//             console.log('Current BTC-USD Price:', response.data);
+//             return new Response(JSON.stringify(response.data));
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//             return new Response('Error:', { status: 500 });
+//         });
 
-    return new Response(JSON.stringify(data));
-}
-
-const data = {
-    "data": {
-        "amount": "68291.535",
-        "base": "BTC",
-        "currency": "USD"
-    }
-}
+// }
 
 /*
 has this response
@@ -48,20 +39,35 @@ has this response
 */
 
 
-// // Description: Get the current exchange rates for BTC.
-// export async function GET(request: Request): Promise<Response> {
-//     console.log('GET /info+api.ts');
+// Description: Get the current exchange rates for BTC.
+export async function GET(request: Request): Promise<Response> {
+    console.log('GET /info+api.ts');
 
-//     return axios.get('https://api.exchange.coinbase.com/products/BTC-USD/ticker')
-//         .then(response => {
-//             console.log('Current BTC-USD Price:', response.data);
-//             return new Response(JSON.stringify(response.data));
-//         })
-//         .catch(error => {
-//             console.error('Error:', error);
-//             return new Response('Error:', error);
-//         });
-// }
+    // return axios.get('https://api.exchange.coinbase.com/products/BTC-USD/ticker')
+    //     .then(response => {
+    //         console.log('Current BTC-USD Price:', response.data);
+    //         return new Response(JSON.stringify(response.data));
+    //     })
+    //     .catch(error => {
+    //         console.error('Error:', error);
+    //         return new Response('Error:', error);
+    //     });
+
+    return new Response(JSON.stringify(data));
+}
+
+
+const data =
+{
+    "ask": "67082.78",
+    "bid": "67081.44",
+    "volume": "12038.84081443",
+    "trade_id": 671039423,
+    "price": "67082.78",
+    "size": "0.00070861",
+    "time": "2024-07-29T17:47:46.743125Z",
+    "rfq_volume": "10.241713"
+}
 
 /*
 has this response

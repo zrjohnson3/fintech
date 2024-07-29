@@ -30,8 +30,7 @@ export async function GET(request: Request): Promise<Response> {
 }
 
 const data =
-{
-    "data": [
+    [
         {
             "id": "5b71fc48-3dd3-540c-809b-f8c94d0e68b5",
             "symbol": "BTC",
@@ -282,12 +281,4 @@ const data =
             "circulating_supply": "464708909.0863611",
             "volume_24h": "2910197274.890687"
         }
-    ],
-    "pagination": {
-        "next_starting_after": "4f039497-3af8-5bb3-951c-6df9afa9be1c",
-        "next_uri": "/v2/assets/search?starting_after=4f039497-3af8-5bb3-951c-6df9afa9be1c&timestamp=1722265500023&base=USD&sort=market_cap&resolution=DAY",
-        "timestamp": "1722265500023",
-        "order": "desc",
-        "limit": 5
-    }
-}
+    ]

@@ -1,4 +1,5 @@
 export interface Currency {
+    logo_url: any;
     id: string;
     symbol: string;
     name: string;
@@ -25,13 +26,13 @@ export interface Currency {
     tradable_on_wallet?: boolean;
 }
 
-interface Latestprice {
+export interface Latestprice {
     amount: Amount;
     timestamp: string;
     percent_change: Percentchange;
 }
 
-interface Percentchange {
+export interface Percentchange {
     hour: number;
     day: number;
     week: number;
@@ -40,15 +41,32 @@ interface Percentchange {
     all: number;
 }
 
-interface Amount {
+export interface Amount {
     amount: string;
     currency: string;
     scale: string;
 }
 
-interface CurrencyUrl {
+export interface CurrencyUrl {
     type: string;
     icon_url: string;
     title: string;
     link: string;
+}
+
+// export interface Coin {
+//     amount: string;
+//     base: string;
+//     currency: string;
+// }
+
+export interface Coin {
+    ask: string;
+    bid: string;
+    volume: string;
+    trade_id: number;
+    price: string;
+    size: string;
+    time: string;
+    rfq_volume: string;
 }
