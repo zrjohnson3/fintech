@@ -33,15 +33,17 @@ const Page = () => {
                     identifier: fullPhoneNumber,
                 });
 
-                const firstPhoneFactor: any = supportedFirstFactors.find((factor: any) => {
-                    factor.strategy === 'phone_code'
-                });
+                const firstPhoneFactor: any = supportedFirstFactors.find((factor: any) => factor.strategy === 'phone_code');
+
+                if (!firstPhoneFactor) {
+                    throw new Error('No phone factor found');
+                }
 
                 const { phoneNumberId } = firstPhoneFactor;
 
                 await signIn!.prepareFirstFactor({
                     strategy: 'phone_code',
-                    phoneNumberId,
+                    phoneNumberId: phoneNumberId,
                 });
 
                 router.push({ pathname: '/verify/[phone]', params: { phone: fullPhoneNumber, signin: "true" } });
