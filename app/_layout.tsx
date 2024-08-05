@@ -5,7 +5,7 @@ import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-import { TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 
 import { useColorScheme } from '@/components/useColorScheme';
 import Colors from '@/constants/Colors';
@@ -190,6 +190,27 @@ const InitialLayout = () => {
       />
       <Stack.Screen name='help' options={{ title: 'Help', presentation: 'modal' }} />
       <Stack.Screen name='(authenticated)/(tabs)' options={{ headerShown: false }} />
+      <Stack.Screen name='(authenticated)/crypto/[id]' options={({
+        title: '',
+        headerLeft: () => (
+          <TouchableOpacity onPress={router.back}>
+            <Ionicons name='arrow-back' size={34} color='black' />
+          </TouchableOpacity>
+        ),
+        // headerLargeTitle: true,
+        headerTransparent: true,
+        headerRight: () => (
+          <View style={{ flexDirection: 'row', gap: 16 }}>
+            <TouchableOpacity onPress={() => router.navigate('help')}>
+              <Ionicons name='notifications-outline' size={34} color='black' />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => router.navigate('help')}>
+              <Ionicons name='star-outline' size={34} color='black' />
+            </TouchableOpacity>
+          </View>
+        )
+      })}
+      />
     </Stack>
 
   );
