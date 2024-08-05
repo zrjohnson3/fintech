@@ -5,6 +5,7 @@ import { Currency } from '@/interfaces/crypto';
 import Colors from '@/constants/Colors';
 import { defaultStyles } from '@/constants/Styles';
 import { router } from 'expo-router';
+import { formatNumber } from '@/utils/currency';
 
 
 const Page = () => {
@@ -15,14 +16,6 @@ const Page = () => {
             return res.json();
         }
     });
-
-    // Function to format numbers to K, M, B (thousands, millions, billions)
-    const formatNumber = (num: number) => {
-        if (num >= 1e9) return (num / 1e9).toFixed(2) + 'B';
-        if (num >= 1e6) return (num / 1e6).toFixed(2) + 'M';
-        if (num >= 1e3) return (num / 1e3).toFixed(2) + 'K';
-        return num.toFixed(2);
-    };
 
     // Function to handle currency press
     const handleCurrencyPress = (currency: Currency) => {
@@ -56,7 +49,7 @@ const Page = () => {
             </View>
             <View style={styles.propertyContainer}>
                 <Text style={[styles.propertyLabel, styles.boldText]}>Latest Price:</Text>
-                <Text style={[styles.propertyValue, styles.boldText]}>${formatNumber(Number(currency.latest_price.amount.amount))}</Text>
+                <Text style={[styles.propertyValue, styles.boldText]}>${(Number(currency.latest_price.amount.amount))}</Text>
             </View>
             <View style={styles.propertyContainer}>
                 <Text style={styles.propertyLabel}>Market Cap:</Text>
