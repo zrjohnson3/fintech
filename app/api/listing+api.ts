@@ -84,43 +84,43 @@ const data =
             "circulating_supply": "19732818",
             "volume_24h": "29929984552.859344"
         },
-        {
-            "id": "3bec5bf3-507a-51ba-8e41-dc953b1a5c4d",
-            "symbol": "ETH2",
-            "name": "Ethereum 2",
-            "slug": "ethereum-2",
-            "color": "#8E76FF",
-            "image_url": "https://dynamic-assets.coinbase.com/9f3242d7cd65e806cc3a12b3d5c2ba3a6a1140dee43f7d1eafaad8747855065aff50fe2bda4d897076cbdada8b9b971015cb2d19c04e67b20a8145d506283287/asset_icons/4e321a458d36c0c6467b346f85e88caddde59fcc0f03444e374de32cc3def4d6.png",
-            "description": "Ethereum 2.0 is an upcoming set of upgrades to Ethereum that's intended to make it significantly faster, less expensive, and more scalable. As part of the upgrade, participants may stake ETH tokens to help secure the network. In exchange for staking, participants then receive rewards on their staked ETH. Staked ETH (and rewards) can't be unstaked until Ethereum 2.0 fully launches, which most experts estimate will happen sometime in 2023. If participants want to sell, send, or use their staked ETH they can do so by converting it to cbETH, Coinbase’s Wrapped Staked ETH token. \n\n\nPlease note: the price chart and market stats for ETH2 are simply a copy of the ETH price chart and market stats. Coinbase plans to support ETH staking throughout the Ethereum 2.0 upgrade. Eligible customers can stake their ETH on Coinbase and receive rewards. While staked ETH and rewards are locked in the network during the upgrade, customers can wrap their ETH2 and rewards into cbETH in order to sell or use the funds.",
-            "exponent": 8,
-            "unit_price_scale": 2,
-            "transaction_unit_price_scale": 2,
-            "address_regex": "^(?:0x)?[0-9a-fA-F]{40}$",
-            "base": "ETH2",
-            "currency": "USD",
-            "rank": 2,
-            "market_cap": "400084567796.40853136217762784488",
-            "percent_change": 0.02135569,
-            "latest": "3331.315",
-            "latest_price": {
-                "amount": {
-                    "amount": "3331.315",
-                    "currency": "USD",
-                    "scale": "2"
-                },
-                "timestamp": "2024-07-29T15:05:00Z",
-                "percent_change": {
-                    "hour": -0.0011828163,
-                    "day": 0.02135569,
-                    "week": -0.034253087,
-                    "month": -0.017186547,
-                    "year": 0.771147,
-                    "all": 940.9515
-                }
-            },
-            "circulating_supply": "120228315.01960197",
-            "volume_24h": "13650292617.14269"
-        },
+        // {
+        //     "id": "3bec5bf3-507a-51ba-8e41-dc953b1a5c4d",
+        //     "symbol": "ETH2",
+        //     "name": "Ethereum 2",
+        //     "slug": "ethereum-2",
+        //     "color": "#8E76FF",
+        //     "image_url": "https://dynamic-assets.coinbase.com/9f3242d7cd65e806cc3a12b3d5c2ba3a6a1140dee43f7d1eafaad8747855065aff50fe2bda4d897076cbdada8b9b971015cb2d19c04e67b20a8145d506283287/asset_icons/4e321a458d36c0c6467b346f85e88caddde59fcc0f03444e374de32cc3def4d6.png",
+        //     "description": "Ethereum 2.0 is an upcoming set of upgrades to Ethereum that's intended to make it significantly faster, less expensive, and more scalable. As part of the upgrade, participants may stake ETH tokens to help secure the network. In exchange for staking, participants then receive rewards on their staked ETH. Staked ETH (and rewards) can't be unstaked until Ethereum 2.0 fully launches, which most experts estimate will happen sometime in 2023. If participants want to sell, send, or use their staked ETH they can do so by converting it to cbETH, Coinbase’s Wrapped Staked ETH token. \n\n\nPlease note: the price chart and market stats for ETH2 are simply a copy of the ETH price chart and market stats. Coinbase plans to support ETH staking throughout the Ethereum 2.0 upgrade. Eligible customers can stake their ETH on Coinbase and receive rewards. While staked ETH and rewards are locked in the network during the upgrade, customers can wrap their ETH2 and rewards into cbETH in order to sell or use the funds.",
+        //     "exponent": 8,
+        //     "unit_price_scale": 2,
+        //     "transaction_unit_price_scale": 2,
+        //     "address_regex": "^(?:0x)?[0-9a-fA-F]{40}$",
+        //     "base": "ETH2",
+        //     "currency": "USD",
+        //     "rank": 2,
+        //     "market_cap": "400084567796.40853136217762784488",
+        //     "percent_change": 0.02135569,
+        //     "latest": "3331.315",
+        //     "latest_price": {
+        //         "amount": {
+        //             "amount": "3331.315",
+        //             "currency": "USD",
+        //             "scale": "2"
+        //         },
+        //         "timestamp": "2024-07-29T15:05:00Z",
+        //         "percent_change": {
+        //             "hour": -0.0011828163,
+        //             "day": 0.02135569,
+        //             "week": -0.034253087,
+        //             "month": -0.017186547,
+        //             "year": 0.771147,
+        //             "all": 940.9515
+        //         }
+        //     },
+        //     "circulating_supply": "120228315.01960197",
+        //     "volume_24h": "13650292617.14269"
+        // },
         {
             "id": "d85dce9b-5b73-5c3c-8978-522ce1d1c1b4",
             "symbol": "ETH",
