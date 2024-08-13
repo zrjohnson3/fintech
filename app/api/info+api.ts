@@ -2,6 +2,34 @@ import axios from "axios";
 
 const API_KEY = process.env.CRYPTO_API_KEY;
 
+
+// New API with correct format and just return the asset info "https://api.coinbase.com/v2/assets/:asset_id" per id
+// Description: Get all assets
+export async function GET(): Promise<Response> {
+    console.log('GET /info+api.ts');
+
+    const options = {
+        method: 'GET',
+        // url: 'https://api.coinbase.com/v2/currencies/crypto/',
+        url: `https://api.exchange.coinbase.com/products/BTC-USD`,
+        headers: {
+            'Authorization': `Bearer ${API_KEY}`,
+            'Content-Type': 'application/json'
+        }
+    };
+
+    return axios(options)
+        .then(response => {
+            console.log('All Assets:', response.data);
+            return new Response(JSON.stringify(response.data));
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            return new Response('Error:', { status: 500 });
+        });
+
+}
+
 // // // Description: Get the current exchange rates for BTC.
 // export async function GET(request: Request): Promise<Response> {
 //     console.log('GET /info+api.ts');
@@ -39,22 +67,22 @@ has this response
 */
 
 
-// Description: Get the current exchange rates for BTC.
-export async function GET(request: Request): Promise<Response> {
-    console.log('GET /info+api.ts');
+// // Description: Get the current exchange rates for BTC.
+// export async function GET(request: Request): Promise<Response> {
+//     console.log('GET /info+api.ts');
 
-    // return axios.get('https://api.exchange.coinbase.com/products/BTC-USD/ticker')
-    //     .then(response => {
-    //         console.log('Current BTC-USD Price:', response.data);
-    //         return new Response(JSON.stringify(response.data));
-    //     })
-    //     .catch(error => {
-    //         console.error('Error:', error);
-    //         return new Response('Error:', error);
-    //     });
+//     // return axios.get('https://api.exchange.coinbase.com/products/BTC-USD/ticker')
+//     //     .then(response => {
+//     //         console.log('Current BTC-USD Price:', response.data);
+//     //         return new Response(JSON.stringify(response.data));
+//     //     })
+//     //     .catch(error => {
+//     //         console.error('Error:', error);
+//     //         return new Response('Error:', error);
+//     //     });
 
-    return new Response(JSON.stringify(data));
-}
+//     return new Response(JSON.stringify(data));
+// }
 
 
 const data =
