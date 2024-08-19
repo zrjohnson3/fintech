@@ -1,20 +1,43 @@
-import { View, Text, SectionList, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, Text, SectionList, StyleSheet, Image, ScrollView, TouchableOpacity, Platform } from 'react-native';
 import React, { useState } from 'react';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useHeaderHeight } from '@react-navigation/elements';
 import Colors from '@/constants/Colors';
 import { defaultStyles } from '@/constants/Styles';
 import { useQuery } from '@tanstack/react-query';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import { formatNumber } from '@/utils/currency';
+import { CartesianChart, Line } from 'victory-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const categories = ['Overview', 'News', 'Orders', 'Transactions'];
+
+// Test data for the chart
+const DATA = Array.from({ length: 31 }, (_, i) => ({
+    day: i,
+    highTmp: 40 + 30 * Math.random(),
+}));
 
 const Page = () => {
     const { id, name, symbol, description, image, latestPrice, marketCap, percentChange, volume24h } = useLocalSearchParams();
     const headerHeight = useHeaderHeight(); // Get the height of the header to offset the content
     const [activeIndex, setActiveIndex] = useState(0);
+
+    const { data: tickers } = useQuery({
+        queryKey: ['tickers'],
+        queryFn: async () => {
+            const tickers = await fetch('/api/tickers').then((res) => res.json());
+            return tickers;
+        },
+    })
+
+    const { data: listings } = useQuery({
+        queryKey: ['listings'],
+        queryFn: async () => {
+            const listings = await fetch('/api/listings').then((res) => res.json());
+            return listings;
+        },
+    })
 
 
     // I am haivng issues getting this working, but mostly due to API's being differnet then I excpted. 
@@ -40,7 +63,7 @@ const Page = () => {
 
     console.log('~ Page ~ id:', id, name);
     return (
-        <>
+        <SafeAreaView>
             <Stack.Screen options={{ title: name?.toString() }} />
             <SectionList
                 style={{ marginTop: 20 }}
@@ -85,6 +108,7 @@ const Page = () => {
                             alignItems: 'center',
                             marginHorizontal: 20,
                             marginVertical: 10,
+                            paddingBottom: 10,
                         }}>
                             <View style={styles.symbolContainer}>
                                 <Text style={styles.title}>{name}</Text>
@@ -111,6 +135,15 @@ const Page = () => {
 
                 renderItem={({ item }) => (
                     <>
+                        <View style={{ height: 300 }}>
+                            <CartesianChart data={DATA} xKey="day" yKeys={["highTmp"]}>
+                                {/* 👇 render function exposes various data, such as points. */}
+                                {({ points }) => (
+                                    // 👇 and we'll use the Line component to render a line path.
+                                    <Line points={points.highTmp} color="red" strokeWidth={3} />
+                                )}
+                            </CartesianChart>
+                        </View>
                         <View style={[styles.container, { flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10 }]}>
                             <Text style={styles.subtitle}>Latest Price</Text>
                             <Text style={styles.description}>${latestPrice}</Text>
@@ -131,12 +164,21 @@ const Page = () => {
                     </>
                 )}
             />
-        </>
+        </SafeAreaView>
     );
 }
 
 
 export default Page;
+
+// header: {
+//     fontSize: Platform.OS === 'ios' ? 24 : 20,
+//         fontWeight: 'bold',
+//             marginTop: Platform.OS === 'ios' ? 0 : 10, // Adjust top margin based on platform
+//   },
+// container: {
+//     paddingTop: Platform.OS === 'ios' ? 20 : 10,
+//   },
 
 const styles = StyleSheet.create({
     container: {
@@ -144,7 +186,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         padding: 10,
         backgroundColor: 'white',
-        margin: 10,
+        margin: Platform.OS === 'ios' ? 10 : 10,
         borderRadius: 10,
     },
     pageId: {
@@ -160,7 +202,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 32,
-        fontWeight: '700',
+        fontWeight: '800',
         color: 'black',
         marginBottom: 16,
     },
@@ -191,7 +233,7 @@ const styles = StyleSheet.create({
     categoryTextActive: {
         fontSize: 16,
         color: '#000',
-        fontWeight: 600,
+        fontWeight: "600",
     },
     categoriesBtn: {
         padding: 10,
