@@ -70,3 +70,11 @@ export interface Coin {
     time: string;
     rfq_volume: string;
 }
+
+
+export interface Ticker {
+    timestamp: string;
+    price: number;
+    volume_24hr: number;
+    market_cap: number;
+}
