@@ -73,16 +73,19 @@ const Page = () => {
     }
 
     return (
-        <FlatList
-            data={currencies}
-            renderItem={renderCurrencyItem}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={styles.listContainer}
-            refreshControl={
-                <RefreshControl refreshing={isLoading} onRefresh={refetch} />
-            }
-            ListEmptyComponent={<Text style={styles.text}>No data available</Text>}
-        />
+        <>
+            <Text style={[styles.header, { textAlign: 'center', fontStyle: 'italic' }]}>Latest Cryptocurrencies</Text>
+            <FlatList
+                data={currencies}
+                renderItem={renderCurrencyItem}
+                keyExtractor={(item) => item.id}
+                contentContainerStyle={styles.listContainer}
+                refreshControl={
+                    <RefreshControl refreshing={isLoading} onRefresh={refetch} />
+                }
+                ListEmptyComponent={<Text style={styles.text}>No data available</Text>}
+            />
+        </>
     );
 }
 
