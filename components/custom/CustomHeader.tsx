@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         margin: 5,
         backgroundColor: Colors.lightGray,
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: 2 },
+        elevation: 5,
     },
 });
