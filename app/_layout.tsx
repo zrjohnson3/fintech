@@ -220,16 +220,26 @@ const InitialLayout = () => {
 const RootLayoutNav = () => {
 
   return (
-    <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY!} tokenCache={tokenCache}>
-      <QueryClientProvider client={queryClient}>
-        <UserInactivityProvider>
-          <GestureHandlerRootView style={{ flex: 1 }}>
+    // <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY!} tokenCache={tokenCache}>
+    //   <QueryClientProvider client={queryClient}>
+    //     <UserInactivityProvider>
+    //       <GestureHandlerRootView style={{ flex: 1 }}>
+    //         <StatusBar style='light' />
+    //         <InitialLayout />
+    //       </GestureHandlerRootView>
+    //     </UserInactivityProvider>
+    //   </QueryClientProvider>
+    // </ClerkProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY!} tokenCache={tokenCache}>
+        <QueryClientProvider client={queryClient}>
+          <UserInactivityProvider>
             <StatusBar style='light' />
             <InitialLayout />
-          </GestureHandlerRootView>
-        </UserInactivityProvider>
-      </QueryClientProvider>
-    </ClerkProvider>
+          </UserInactivityProvider>
+        </QueryClientProvider>
+      </ClerkProvider>
+    </GestureHandlerRootView>
   );
 }
 
