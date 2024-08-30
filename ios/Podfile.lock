@@ -1518,6 +1518,8 @@ PODS:
     - ComputableLayout (~> 0.7)
     - DGSwiftUtilities (~> 0.27)
     - ExpoModulesCore
+  - RNCAsyncStorage (2.0.0):
+    - React-Core
   - RNGestureHandler (2.18.1):
     - DoubleConversion
     - glog
@@ -1715,6 +1717,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeIosContextMenu (from `../node_modules/react-native-ios-context-menu`)
   - ReactNativeIosUtilities (from `../node_modules/react-native-ios-utilities`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -1897,6 +1900,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-ios-context-menu"
   ReactNativeIosUtilities:
     :path: "../node_modules/react-native-ios-utilities"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
@@ -1995,6 +2000,7 @@ SPEC CHECKSUMS:
   ReactCommon: f00e436b3925a7ae44dfa294b43ef360fbd8ccc4
   ReactNativeIosContextMenu: e5f972174bd78ab3a552bd6ee4745762ffaa42b3
   ReactNativeIosUtilities: 8ea45df073a05d24b9fd75e4ec5fe1de19051466
+  RNCAsyncStorage: d35c79ffba52c1013013e16b1fc295aec2feabb6
   RNGestureHandler: efed690b8493a00b99654043daeb1335276ac4a2
   RNReanimated: 45553a3ae29a75a76269595f8554d07d4090e392
   RNScreens: b32a9ff15bea7fcdbe5dff6477bc503f792b1208
