@@ -1,21 +1,34 @@
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { defaultStyles } from '@/constants/Styles';
-import React from 'react';
+import React, { useState } from 'react';
 import Colors from '@/constants/Colors';
 import { Link, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSignUp } from '@clerk/clerk-expo';
 
 const SignupPage = () => {
-    const [countryCode, setCountryCode] = React.useState('+1');
-    const [phoneNumber, setPhoneNumber] = React.useState('');
+
+    // User Information
+    const [countryCode, setCountryCode] = useState('+1');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+
+    // Keyboard offset for iOS
     const keybordVerticalOffset = Platform.OS === 'ios' ? 80 : 0;
+
+    // Router
     const router = useRouter();
+
+    // Signup
     const { signUp } = useSignUp();
 
+
+    // Signup function using phone number with Clerk
     const onSignup = async () => {
-        console.log('Signup', countryCode, phoneNumber);
+        console.log('Signup', countryCode, phoneNumber, firstName, lastName);
         const fullPhoneNumber = `${countryCode}${phoneNumber}`;
+        const fullName = `${firstName} ${lastName}`;
 
         // For testing purposes, we will skip the phone verification
         // router.push({ pathname: '/verify/[phone]', params: { phone: `${countryCode}${phoneNumber}` } });
@@ -23,7 +36,9 @@ const SignupPage = () => {
         try {
             // Create a new user using the phone number
             await signUp!.create({
-                phoneNumber: `${countryCode}${phoneNumber}`
+                phoneNumber: `${countryCode}${phoneNumber}`,
+                firstName: firstName,
+                lastName: lastName,
             });
             // This is needed to prepare the phone number verification
             signUp!.preparePhoneNumberVerification();
@@ -60,6 +75,20 @@ const SignupPage = () => {
                             keyboardType='numeric'
                             value={phoneNumber}
                             onChangeText={setPhoneNumber}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            placeholder='First Name'
+                            style={[styles.input, { flex: 0.5, marginTop: 20, marginRight: 10 }]}
+                            value={firstName}
+                            onChangeText={setFirstName}
+                        />
+                        <TextInput
+                            placeholder='Last Name'
+                            style={[styles.input, { flex: 0.5, marginTop: 20 }]}
+                            value={lastName}
+                            onChangeText={setLastName}
                         />
                     </View>
 
