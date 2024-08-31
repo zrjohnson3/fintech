@@ -4,8 +4,15 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAuth, useUser } from '@clerk/clerk-expo'
 import * as Haptics from 'expo-haptics'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { useRouter } from 'expo-router'
+import { defaultStyles } from '@/constants/Styles'
+import Colors from '@/constants/Colors'
+import * as LocalAuthentication from 'expo-local-authentication'
 
 const Page = () => {
+
+    // Get the router hook object
+    const router = useRouter();
 
     // Get the user and auth object from the ClerkProvider
     const { user } = useUser();
@@ -24,7 +31,14 @@ const Page = () => {
     useEffect(() => {
         console.log('Code:', code);
         if (code.length === 6) {
-            setCode(prevCode => []);
+            if (code.join('') === '123456') {
+                router.replace('(authenticated)/(tabs)/home');
+                setCode(prevCode => []);
+            }
+            else {
+                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+                setCode(prevCode => []);
+            }
         }
     }, [code]);
 
@@ -51,12 +65,23 @@ const Page = () => {
         }
     };
 
+    // Function to handle the biometric authentication press - Face ID or Touch ID depending on the device
     const onBiometricAuthPress = async () => {
         console.log('Biometric Auth Pressed');
+        const { success } = await LocalAuthentication.authenticateAsync();
+        if (success) {
+            console.log('Biometric Auth Success');
+            router.replace('(authenticated)/(tabs)/home');
+        }
+        else {
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+            console.log('Biometric Auth Failed');
+        }
     }
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ flex: 1 }}>
+            <View style={{ height: 10 }} />
             <Text style={styles.greeting}>Welcome Back, {firstName}</Text>
             <Text style={styles.subGreeting}>Enter your code to unlock the app</Text>
 
@@ -74,34 +99,52 @@ const Page = () => {
             </View>
 
             {/* Displays the keypad */}
-            <View style={styles.keypad}>
-                {[1, 2, 3].map((number) => (
-                    <TouchableOpacity key={number} style={styles.key} onPress={() => handleNumberPress(number)}>
-                        <Text style={styles.keyText}>{number}</Text>
+            <View>
+                <View style={styles.keypad}>
+                    {[1, 2, 3].map((number) => (
+                        <TouchableOpacity key={number} style={styles.key} onPress={() => handleNumberPress(number)}>
+                            <Text style={styles.keyText}>{number}</Text>
+                        </TouchableOpacity>
+                    ))}
+                    {[4, 5, 6].map((number) => (
+                        <TouchableOpacity key={number} style={styles.key} onPress={() => handleNumberPress(number)}>
+                            <Text style={styles.keyText}>{number}</Text>
+                        </TouchableOpacity>
+                    ))}
+                    {[7, 8, 9].map((number) => (
+                        <TouchableOpacity key={number} style={styles.key} onPress={() => handleNumberPress(number)}>
+                            <Text style={styles.keyText}>{number}</Text>
+                        </TouchableOpacity>
+                    ))}
+                    <TouchableOpacity style={styles.key} onPress={() => onBiometricAuthPress()}>
+                        {/* {code.length === 0 ? (
+                        <Text style={styles.keyText}>
+                            <Ionicons name='finger-print' size={32} color='black' />
+                        </Text>
+                    ) : (
+                        <MaterialCommunityIcons name='face-recognition' size={32} color='black' />
+                    )} */}
+                        {code.length === 0 ? (
+                            <Text style={styles.keyText}>
+                                <MaterialCommunityIcons name='face-recognition' size={32} color='black' />
+                            </Text>
+                        ) : (
+                            <></>
+                        )}
                     </TouchableOpacity>
-                ))}
-                {[4, 5, 6].map((number) => (
-                    <TouchableOpacity key={number} style={styles.key} onPress={() => handleNumberPress(number)}>
-                        <Text style={styles.keyText}>{number}</Text>
+                    <TouchableOpacity style={styles.key} onPress={() => handleNumberPress(0)}>
+                        <Text style={styles.keyText}>0</Text>
                     </TouchableOpacity>
-                ))}
-                {[7, 8, 9].map((number) => (
-                    <TouchableOpacity key={number} style={styles.key} onPress={() => handleNumberPress(number)}>
-                        <Text style={styles.keyText}>{number}</Text>
+                    <TouchableOpacity style={styles.key} onPress={() => handleNumberBackspacePress(code[-1])}>
+                        {/* <Text style={styles.keyText}>&lt;--</Text> */}
+                        <Text style={styles.keyText}>
+                            <Ionicons name='backspace' size={28} color='black' />
+                        </Text>
                     </TouchableOpacity>
-                ))}
-                <TouchableOpacity style={styles.key} onPress={() => console.log("Biometric Login")}>
-
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.key} onPress={() => handleNumberPress(0)}>
-                    <Text style={styles.keyText}>0</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.key} onPress={() => handleNumberBackspacePress(code[-1])}>
-                    {/* <Text style={styles.keyText}>&lt;--</Text> */}
-                    <Text style={styles.keyText}>
-                        <Ionicons name='backspace' size={28} color='black' />
-                    </Text>
-                </TouchableOpacity>
+                </View>
+                <View style={styles.forgotPassword}>
+                    <Text style={[defaultStyles.header, styles.forgotPasswordText]}>Forgot your password?</Text>
+                </View>
             </View>
         </SafeAreaView>
     );
@@ -113,8 +156,8 @@ const styles = StyleSheet.create({
     greeting: {
         fontSize: 26,
         fontWeight: 'bold',
-        marginBottom: 20,
-        marginTop: 80,
+        marginBottom: 10,
+        marginTop: 40,
         alignSelf: 'center',
     },
     subGreeting: {
@@ -126,7 +169,7 @@ const styles = StyleSheet.create({
     codeView: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginVertical: 20,
+        marginVertical: 10,
     },
     codeEmpty: {
         width: 40,
@@ -137,15 +180,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
-        width: '80%',
+        width: '85%',
         alignSelf: 'center',
+
     },
     key: {
-        width: '30%',
+        width: '28%',
+        height: 80,
         aspectRatio: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 10,
+        marginVertical: 5,
     },
     keyText: {
         fontSize: 32,
@@ -156,4 +201,15 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
         marginVertical: 10,
     },
+    forgotPassword: {
+        marginBottom: 20,
+        paddingBottom: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+    },
+    forgotPasswordText: {
+        color: Colors.primary,
+        fontSize: 20,
+    }
 });
