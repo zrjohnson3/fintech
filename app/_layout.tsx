@@ -5,7 +5,7 @@ import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 
 import { useColorScheme } from '@/components/useColorScheme';
 import Colors from '@/constants/Colors';
@@ -102,11 +102,17 @@ const InitialLayout = () => {
     }
   }, [isSignedIn]);
 
+  // Loading screen for the app. Will show a loading indicator and text until the app is loaded.
   if (!loaded || !isLoaded) {
     return (
-      <Text>Loading...</Text>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+        <ActivityIndicator size='large' color={Colors.primary} />
+        <Text>Loading...</Text>
+      </View>
+
     )
   }
+
 
   return (
 
