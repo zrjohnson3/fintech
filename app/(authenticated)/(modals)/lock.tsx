@@ -162,9 +162,14 @@ const Page = () => {
                         </Text>
                     </TouchableOpacity>
                 </View>
+
+                {/* Forgot password link  fintech/app/auth/forgotPassword.tsx*/}
                 <View style={styles.forgotPassword}>
-                    <Text style={[defaultStyles.header, styles.forgotPasswordText]}>Forgot your password?</Text>
+                    <TouchableOpacity onPress={() => router.push('../../(user)/forgotPassword')}>
+                        <Text style={[defaultStyles.header, styles.forgotPasswordText]}>Forgot your password?</Text>
+                    </TouchableOpacity>
                 </View>
+
             </View>
         </SafeAreaView>
     );
