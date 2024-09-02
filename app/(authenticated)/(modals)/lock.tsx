@@ -8,6 +8,7 @@ import { useRouter } from 'expo-router'
 import { defaultStyles } from '@/constants/Styles'
 import Colors from '@/constants/Colors'
 import * as LocalAuthentication from 'expo-local-authentication'
+import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated'
 
 const Page = () => {
 
@@ -27,6 +28,19 @@ const Page = () => {
     // State to store the code
     const [code, setCode] = useState<number[]>([]);
 
+    // Shared value for the offset of the code input
+    const offset = useSharedValue(0);
+
+    const style = useAnimatedStyle(() => {
+        return {
+            transform: [{ translateX: offset.value }],
+        };
+    });
+
+    // Constants for the offset and time of the animation - from the reanimated library
+    const OFFSET = 20;
+    const TIME = 80;
+
     // useEffect hook to check if the code is complete and valid. If it is, clear the code. 
     useEffect(() => {
         console.log('Code:', code);
@@ -36,6 +50,12 @@ const Page = () => {
                 setCode(prevCode => []);
             }
             else {
+                offset.value = withSequence(
+                    withTiming(-OFFSET, { duration: TIME / 2 }),
+                    withRepeat(withTiming(OFFSET, { duration: TIME }), 4, true),
+                    withTiming(0, { duration: TIME / 2 }),
+                )
+
                 Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
                 setCode(prevCode => []);
             }
@@ -86,7 +106,7 @@ const Page = () => {
             <Text style={styles.subGreeting}>Enter your code to unlock the app</Text>
 
             {/* Displays the code input */}
-            <View style={[styles.codeView]}>
+            <Animated.View style={[styles.codeView, style]}>
                 {codeLength.map((_, index) => (
                     <View
                         key={index}
@@ -96,7 +116,7 @@ const Page = () => {
                         ]}
                     />
                 ))}
-            </View>
+            </Animated.View>
 
             {/* Displays the keypad */}
             <View>
@@ -152,29 +172,92 @@ const Page = () => {
 
 export default Page;
 
+// const styles = StyleSheet.create({
+//     greeting: {
+//         fontSize: 26,
+//         fontWeight: 'bold',
+//         marginBottom: 10,
+//         marginTop: 40,
+//         alignSelf: 'center',
+//     },
+//     subGreeting: {
+//         fontSize: 18,
+//         color: 'gray',
+//         marginBottom: 20,
+//         alignSelf: 'center',
+//     },
+//     codeView: {
+//         flexDirection: 'row',
+//         justifyContent: 'space-around',
+//         marginVertical: 10,
+//     },
+//     codeEmpty: {
+//         width: 25,
+//         height: 25,
+//         borderRadius: 20,
+//     },
+//     keypad: {
+//         flexDirection: 'row',
+//         flexWrap: 'wrap',
+//         justifyContent: 'space-between',
+//         width: '85%',
+//         alignSelf: 'center',
+
+//     },
+//     key: {
+//         width: '28%',
+//         height: 80,
+//         aspectRatio: 1,
+//         justifyContent: 'center',
+//         alignItems: 'center',
+//         marginVertical: 5,
+//     },
+//     keyText: {
+//         fontSize: 32,
+//         fontWeight: 'bold',
+//     },
+//     emptyKey: {
+//         width: '30%',
+//         aspectRatio: 1,
+//         marginVertical: 10,
+//     },
+//     forgotPassword: {
+//         marginBottom: 20,
+//         paddingBottom: 20,
+//         justifyContent: 'center',
+//         alignItems: 'center',
+//         textAlign: 'center',
+//     },
+//     forgotPasswordText: {
+//         color: Colors.primary,
+//         fontSize: 20,
+//     }
+// });
+
+// Adjusted styles to better fit lock screen design. 
 const styles = StyleSheet.create({
     greeting: {
-        fontSize: 26,
+        fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 10,
-        marginTop: 40,
+        marginTop: 30,
         alignSelf: 'center',
     },
     subGreeting: {
-        fontSize: 18,
+        fontSize: 16,
         color: 'gray',
-        marginBottom: 20,
+        marginBottom: 15,
         alignSelf: 'center',
     },
     codeView: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginVertical: 10,
+        justifyContent: 'space-evenly',
+        marginVertical: 15,
     },
     codeEmpty: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
+        width: 22,
+        height: 22,
+        borderRadius: 14,
     },
     keypad: {
         flexDirection: 'row',
@@ -182,7 +265,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: '85%',
         alignSelf: 'center',
-
+        marginTop: 10,
     },
     key: {
         width: '28%',
@@ -193,23 +276,20 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     },
     keyText: {
-        fontSize: 32,
+        fontSize: 28,
         fontWeight: 'bold',
     },
-    emptyKey: {
-        width: '30%',
-        aspectRatio: 1,
-        marginVertical: 10,
-    },
     forgotPassword: {
-        marginBottom: 20,
-        paddingBottom: 20,
+        marginTop: 10,
+        marginBottom: 15,
+        paddingBottom: 15,
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
     },
     forgotPasswordText: {
         color: Colors.primary,
-        fontSize: 20,
+        fontSize: 18,
     }
 });
+
