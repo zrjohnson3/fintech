@@ -5,13 +5,14 @@ import Colors from '@/constants/Colors';
 import { Link, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { isClerkAPIResponseError, useSignIn } from '@clerk/clerk-expo';
+import { SignInType } from '@/enums/enums';
 
-enum SignInType {
-    Phone,
-    Email,
-    Google,
-    Apple
-}
+// enum SignInType {
+//     Phone,
+//     Email,
+//     Google,
+//     Apple
+// }
 
 const Page = () => {
     const [countryCode, setCountryCode] = React.useState('+1');
