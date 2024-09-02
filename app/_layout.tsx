@@ -218,7 +218,10 @@ const InitialLayout = () => {
         )
       })}
       />
-      <Stack.Screen name='(authenticated)/(modals)/lock' options={{ headerShown: false, animation: 'none' }} /> {/* Lock Screen - without any animation  */}
+
+      <Stack.Screen name='(authenticated)/(modals)' options={{ headerShown: false }} />
+
+      {/* <Stack.Screen name='(authenticated)/(modals)/lock' options={{ headerShown: false, animation: 'none' }} /> {/* Lock Screen - without any animation  */}
     </Stack>
 
   );
