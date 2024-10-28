@@ -4,6 +4,7 @@ import { BlurView } from 'expo-blur';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
+import { Link } from 'expo-router';
 
 const CustomHeader = () => {
     const { top } = useSafeAreaInsets(); // Get the top inset to avoid the status bar and help the header to be below the status bar and not behind it
@@ -15,9 +16,11 @@ const CustomHeader = () => {
                 {!isSearchFocused && (
                     <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Fintech</Text>
                 )}
-                <TouchableOpacity style={styles.roundBtn}>
-                    <Text style={{ color: 'white', fontWeight: '500', fontSize: 16 }}>SC</Text>
-                </TouchableOpacity>
+                <Link href={'/(modals)/account'} asChild>
+                    <TouchableOpacity style={styles.roundBtn}>
+                        <Text style={{ color: 'white', fontWeight: '500', fontSize: 16 }}>SC</Text>
+                    </TouchableOpacity>
+                </Link>
                 <View style={styles.searchSection}>
                     <Ionicons name='search' size={24} color='black' style={styles.icon} />
                     <TextInput
