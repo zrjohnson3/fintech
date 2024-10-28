@@ -6,6 +6,8 @@ import { BlurView } from 'expo-blur';
 import Colors from '@/constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import { TextInput } from 'react-native-gesture-handler';
+import { SignOutButton } from '@clerk/clerk-react'
+import * as ImagePicker from 'expo-image-picker';
 
 const Page = () => {
     const { user } = useUser(); // Clerk's user hook
@@ -38,6 +40,12 @@ const Page = () => {
 
     const onCaptureImage = async () => {
         // Capture image logic (if needed)
+        let results = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        })
     };
 
     // Debugging user information
@@ -47,43 +55,52 @@ const Page = () => {
         <BlurView intensity={80} tint='dark' style={{ flex: 1, paddingTop: 100, backgroundColor: 'rgba(0,0,0,0.3)' }}>
             {/* <Text style={styles.header}>Account Page</Text> */}
             {user && (
-                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    <TouchableOpacity onPress={onCaptureImage} style={styles.captureButton}>
-                        {user.imageUrl && <Image source={{ uri: user.imageUrl }} style={styles.userImage} />}
-                    </TouchableOpacity>
+                <>
+                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                        <TouchableOpacity onPress={onCaptureImage} style={styles.captureButton}>
+                            {user.imageUrl && <Image source={{ uri: user.imageUrl }} style={styles.userImage} />}
+                        </TouchableOpacity>
 
-                    {/* <View style={{ flexDirection: 'row', gap: 6 }} */}
-                    {!edit && (
-                        <View style={styles.editRow}>
-                            <Text style={[styles.userName, { fontSize: 26, justifyContent: 'center' }]}>
-                                {firstName} {lastName}
-                            </Text>
-                            <TouchableOpacity style={{ flexDirection: 'row', gap: 6 }} onPress={() => setEdit(true)}>
-                                {/* <Text style={styles.editText}>Edit</Text> */}
-                                <Ionicons name='ellipsis-horizontal' size={24} color={Colors.primary} />
-                                {/* DROPDOWN MENU WHEN THE USER HITS THE ... (HAMBUGER MENU) */}
-                            </TouchableOpacity>
-                        </View>
-                    )}
-                    {edit && (
-                        <View style={styles.editRow}>
-                            <TextInput
-                                style={[styles.userNameEditField, { fontSize: 26, justifyContent: 'center' }]}
-                                value={firstName}
-                                onChangeText={setFirstName}
-                            />
-                            <TextInput
-                                style={[styles.userNameEditField, { fontSize: 26, justifyContent: 'center' }]}
-                                value={lastName}
-                                onChangeText={setLastName}
-                            />
-                            <TouchableOpacity style={{ flexDirection: 'row', gap: 6 }} onPress={onSaveUser}>
-                                {/* DROPDOWN MENU WHEN THE USER HITS THE ... (HAMBUGER MENU) */}
-                                <Ionicons name='checkmark' size={24} color={Colors.primary} />
-                            </TouchableOpacity>
-                        </View>
-                    )}
-                </View>
+                        {/* <View style={{ flexDirection: 'row', gap: 6 }} */}
+                        {!edit && (
+                            <View style={styles.editRow}>
+                                <Text style={[styles.userName, { fontSize: 26, justifyContent: 'center' }]}>
+                                    {firstName} {lastName}
+                                </Text>
+                                <TouchableOpacity style={{ flexDirection: 'row', gap: 6 }} onPress={() => setEdit(true)}>
+                                    {/* <Text style={styles.editText}>Edit</Text> */}
+                                    <Ionicons name='ellipsis-horizontal' size={24} color={Colors.primary} />
+                                    {/* DROPDOWN MENU WHEN THE USER HITS THE ... (HAMBUGER MENU) */}
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                        {edit && (
+                            <View style={styles.editRow}>
+                                <TextInput
+                                    style={[styles.userNameEditField, { fontSize: 26, justifyContent: 'center' }]}
+                                    value={firstName}
+                                    onChangeText={setFirstName}
+                                />
+                                <TextInput
+                                    style={[styles.userNameEditField, { fontSize: 26, justifyContent: 'center' }]}
+                                    value={lastName}
+                                    onChangeText={setLastName}
+                                />
+                                <TouchableOpacity style={{ flexDirection: 'row', gap: 6 }} onPress={onSaveUser}>
+                                    {/* DROPDOWN MENU WHEN THE USER HITS THE ... (HAMBUGER MENU) */}
+                                    <Ionicons name='checkmark' size={24} color={Colors.primary} />
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                    </View>
+                    <View style={{ position: 'absolute', top: 80, right: 20 }}>
+                        <TouchableOpacity onPress={() => signOut()} style={[styles.accountPillButton, { backgroundColor: Colors.lightGray, paddingHorizontal: 20, paddingVertical: 5 }]}>
+                            <SignOutButton>
+                                <Text>Sign Out</Text>
+                            </SignOutButton>
+                        </TouchableOpacity>
+                    </View>
+                </>
             )
             }
         </BlurView >
@@ -145,6 +162,13 @@ const styles = StyleSheet.create({
         color: Colors.primary,
         marginLeft: 10,
     },
+    accountPillButton: {
+        padding: 20,
+        height: 40,
+        borderRadius: 15,
+        justifyContent: "center",
+        alignItems: "center",
+    }
 });
 
 export default Page;
