@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useAuth, useUser } from '@clerk/clerk-expo'
 import * as Haptics from 'expo-haptics'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import * as SecureStore from 'expo-secure-store'
 import { useRouter } from 'expo-router'
 import { defaultStyles } from '@/constants/Styles'
 import Colors from '@/constants/Colors'
@@ -28,6 +29,10 @@ const Page = () => {
     // State to store the code
     const [code, setCode] = useState<number[]>([]);
 
+    // Get the user code
+    const userCode = SecureStore.getItem('userLockScreenPasscode');
+    console.log('User Code:', userCode);
+
     // Shared value for the offset of the code input
     const offset = useSharedValue(0);
 
@@ -45,10 +50,14 @@ const Page = () => {
     useEffect(() => {
         console.log('Code:', code);
         if (code.length === 6) {
-            if (code.join('') === '123456') {
+            if (code.join('') === (userCode)) {
                 router.replace('(authenticated)/(tabs)/home');
                 setCode(prevCode => []);
             }
+            // if (code.join('') === '123456') {
+            //     router.replace('(authenticated)/(tabs)/home');
+            //     setCode(prevCode => []);
+            // }
             else {
                 offset.value = withSequence(
                     withTiming(-OFFSET, { duration: TIME / 2 }),
@@ -297,4 +306,3 @@ const styles = StyleSheet.create({
         fontSize: 18,
     }
 });
-
