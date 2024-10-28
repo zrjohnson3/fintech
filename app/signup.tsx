@@ -5,6 +5,15 @@ import Colors from '@/constants/Colors';
 import { Link, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSignUp } from '@clerk/clerk-expo';
+import * as SecureStore from 'expo-secure-store';
+import { set } from 'date-fns';
+
+// Call this function after the user has entered a passcode
+async function setPasscode(passcode: string) {
+    await SecureStore.setItemAsync('userPasscode', passcode);
+    console.log("Passcode set successfully");
+}
+
 
 const SignupPage = () => {
 
@@ -13,6 +22,7 @@ const SignupPage = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [passcode, setPasscode] = useState('');
 
     // Keyboard offset for iOS
     const keybordVerticalOffset = Platform.OS === 'ios' ? 80 : 0;
@@ -40,6 +50,10 @@ const SignupPage = () => {
                 firstName: firstName,
                 lastName: lastName,
             });
+
+            // Set the passcode for the user
+            setPasscode(passcode);
+
             // This is needed to prepare the phone number verification
             signUp!.preparePhoneNumberVerification();
             // Redirect to the verification page
@@ -89,6 +103,16 @@ const SignupPage = () => {
                             style={[styles.input, { flex: 0.5, marginTop: 20 }]}
                             value={lastName}
                             onChangeText={setLastName}
+                        />
+                    </View>
+                    {/* Set the passcode for the user */}
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            placeholder='Passcode'
+                            style={[styles.input, { flex: 0.5, marginTop: 20, marginRight: 10 }]}
+                            value={passcode}
+                            onChangeText={setPasscode}
+                            maxLength={6}
                         />
                     </View>
 
