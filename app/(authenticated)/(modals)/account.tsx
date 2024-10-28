@@ -40,13 +40,18 @@ const Page = () => {
 
     const onCaptureImage = async () => {
         // Capture image logic (if needed)
-        let results = await ImagePicker.launchImageLibraryAsync({
+        let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
-            quality: 1,
+            quality: 0.75,
+            base64: true,
         })
-    };
+        if (!result.canceled) {
+            const base64 = `data:image/jpeg;base64,${result.assets[0].base64}`;
+            user?.setProfileImage({ file: base64 });
+        };
+    }
 
     // Debugging user information
     console.log('Account Page', user?.fullName, user?.firstName, user?.lastName);
@@ -58,7 +63,7 @@ const Page = () => {
                 <>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                         <TouchableOpacity onPress={onCaptureImage} style={styles.captureButton}>
-                            {user.imageUrl && <Image source={{ uri: user.imageUrl }} style={styles.userImage} />}
+                            {user.imageUrl && <Image source={{ uri: user?.imageUrl }} style={styles.userImage} />}
                         </TouchableOpacity>
 
                         {/* <View style={{ flexDirection: 'row', gap: 6 }} */}
